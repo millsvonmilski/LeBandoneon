@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Le Bandoneon de Cortazar</title>
+      
+        <meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        
+        <meta name="description" content="Le Bandoneon de Cortazar" />
+		<meta name="keywords" content="julio, julio cortazar, argentina, le bandoneaon de cortazar, tango" />
+      
+     
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="css/style2.css" />
+	
+	</head>
+    <body onLoad="myFunction();">
+        <div class="container">
+            <h1 class="main">une experience interactive</h1>
+			
+			<div class="sp-container">
+				<div class="sp-content">
+					<div class="sp-globe"></div>
+					<h2 class="frame-1">Transform [,]</h2>
+					<h2 class="frame-2">presente</h2>
+					<h2 class="frame-3">l'univers poetique de julio cortazar</h2>
+					<h2 class="frame-4"></h2>
+					<h2 class="frame-5"><span>Le Bandoneon de Cortazar</span></h2>
+					<a  hidden="true"  id="start" class="sp-circle-link" href="acueil.html">Start !</a>
+				</div>
+                
+                <script type="text/javascript">
+				
+            
+					 var myVar;
+					 var start = document.getElementById('start');
+
+					function myFunction() {
+							myVar = setTimeout(alertFunc, 6000);
+					}
+
+					function alertFunc() {
+    						start.hidden = false;
+					}
+			
+ 
+				
+				</script>
+                
+                
+                
+						                <!-- VIDEO -->
+                                        
+                                        
+                <video playsinline autoplay loop poster="polina.jpg" id="bgvid">
+    				<source src="vid/locuras.mp4" type="video/mp4">
+				</video>
+          
+			</div>
+        </div>
+    </body>
+</html>

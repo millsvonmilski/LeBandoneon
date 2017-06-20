@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		
+        <meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        
+		<title>Pour lire de façon interrogative</title>
+        
+         <style>
+    	   		 canvas:focus{outline:none;}
+					
+	    </style>
+        
+		<meta name="description" content="Pour lire de façon interrogative" />
+		<meta name="keywords" content="julio, julio cortazar, argentina, le bandoneaon de cortazar, tango" />
+        
+											<!-- Estilos -->
+    
+    
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/component.css" />
+        
+        						
+       
+		<script charset="utf-8">
+			/*
+				VIEWPORT BUG FIX
+				iOS viewport scaling bug fix, by @mathias, @cheeaun and @jdalton
+			*/
+			(function(doc){var addEvent='addEventListener',type='gesturestart',qsa='querySelectorAll',scales=[1,1],meta=qsa in doc?doc[qsa]('meta[name=viewport]'):[];function fix(){meta.content='width=device-width,minimum-scale='+scales[0]+',maximum-scale='+scales[1];doc.removeEventListener(type,fix,true);}if((meta=meta[meta.length-1])&&addEvent in doc){fix();scales=[.25,1.6];doc[addEvent](type,fix,true);}}(document));
+			
+			//alert(screen.width); 
+			//alert(screen.height);
+			//alert($(window).width(), $(window).height());
+			
+			
+			
+			// DEFINO LAS VARIABLES PARA CONTROLAR LA TALLA DE MIS CANVAS
+			var ancho = screen.width;
+			var largo = screen.height;
+			
+		</script>
+        
+        
+        								<!-- PARA ANIMAR EL TEXTO  -->
+       
+        <link rel="stylesheet" type="text/css" href="css/style3.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        
+		<script src="js/modernizr.custom.72111.js" charset="utf-8"></script>
+	
+    	<style>
+			.no-cssanimations .rw-wrapper .rw-sentence span:first-child{
+				opacity: 1;
+			}
+			
+			.no-cssanimations .w-wrapper .w-sentence span:first-child{
+				opacity: 1;
+			}		
+		</style>
+        
+					<script src="js/modernizr.custom.js" charset="utf-8"></script>
+      				<script src="js/processing.js" charset="utf-8"></script>
+        
+	</head>
+    
+	<body>
+    
+		<div id="vs-container" class="vs-container">
+			<div class="codrops-top clearfix">
+				<a class="codrops-icon codrops-icon-prev" href="../0pening/acueil.html"/><span>Accueil</span></a>
+				<span class="right"><a href="">Pour lire de façon interrogative</a>
+                <a href="" style="opacity:0">Pour lire de façon interrogative</a>
+                <a class="codrops-icon" href="../2pourEcou/EcouTITULO.html"/>
+                <span>Chapitre 2</span></a></span>
+			</div>
+			
+            <header class="vs-header">
+                
+            
+              <script type="text/processing">
+				
+								// WEBBY
+						
+						
+				
+							int fc, num = 2000;
+							ArrayList ballCollection; 
+							boolean save = false;
+							float scal, theta;
+							PGraphics letter;
+							PFont font;
+							String l = "?"; 
+
+							void setup() {
+								  background(0,0);
+								  size(400, 370);
+								  letter = createGraphics(width, height);
+								  font = loadFont("Arial-Black-250.vlw");
+								  ballCollection = new ArrayList();
+								  createStuff();
+							}
+
+							void draw() {
+								  background(0,0);
+								
+								  for (int i=0; i<ballCollection.size (); i++) {
+									Ball mb = (Ball) ballCollection.get(i);
+									mb.run();
+								  }  
+								
+								  theta += .0523;
+								
+								  if (save) {
+									if (frameCount%1==0 && frameCount < fc + 30) saveFrame("image-####.gif");
+								  }
+							}
+
+							void keyPressed() {
+							  if (key != CODED) l = str(key);
+							  createStuff();
+							}
+
+							void mouseReleased() {
+							
+							}
+
+							void createStuff() {
+							  ballCollection.clear();
+							  
+							  letter.beginDraw();
+							  letter.noStroke();
+							  letter.background(255);
+							  letter.fill(0);
+							  letter.textFont(font, 300); // 350
+							  letter.textAlign(CENTER);
+							  letter.text(l, 200, 300); // 200, 350
+							  letter.endDraw();
+							  letter.loadPixels();
+							
+							  for (int i=0; i<num; i++) {
+								int x = (int)random(width);
+								int y = (int)random(height);
+								//color c = letter.get(x, y);
+								int c = letter.pixels[x+y*width];
+								if (brightness(c)<255) {
+								  PVector org = new PVector(x, y);
+								  float radius = random(5, 10);
+								  PVector loc = new PVector(org.x+radius, org.y);
+								  float offSet = random(TWO_PI);
+								  int dir = 1;
+								  float r = random(1);
+								  if (r>.5) dir =-1;
+								  Ball myBall = new Ball(org, loc, radius, dir, offSet);
+								  ballCollection.add(myBall);
+								}
+							  }
+							}
+							
+							class Ball {
+							
+							  PVector org, loc;
+							  float sz = 2;
+							  float radius, offSet, a;
+							  int s, dir, countC, d = 20;
+							  boolean[] connection = new boolean[num];
+							
+							  Ball(PVector _org, PVector _loc, float _radius, int _dir, float _offSet) {
+								org = _org;
+								loc = _loc;
+								radius = _radius;
+								dir = _dir;
+								offSet = _offSet;
+							  }
+
+							  void run() {
+									display();
+									move();
+									lineBetween();
+							  }
+
+							  void move() {
+								loc.x = org.x + sin(theta*dir+offSet)*radius;
+								loc.y = org.y + cos(theta*dir+offSet)*radius;
+							  }
+
+							  void lineBetween() {
+									countC = 1;
+									for (int i=0; i<ballCollection.size(); i++) {
+									  Ball other = (Ball) ballCollection.get(i);
+									  float distance = loc.dist(other.loc);
+									  if (distance >0 && distance < d) {
+										a = map(countC,0,10,10,255);
+										stroke(255, a);
+										line(loc.x, loc.y, other.loc.x, other.loc.y);
+										connection[i] = true;
+									  } 
+									  else {
+										connection[i] = false;
+									  }
+									}
+									for (int i=0; i<ballCollection.size(); i++) {
+									  if (connection[i]) countC++;
+									}
+							  }
+
+								  
+								  void display() {
+									noStroke();
+									fill(255, 200);
+									ellipse(loc.x, loc.y, sz, sz);
+								  }
+								}
+				
+				</script>
+                <canvas> </canvas>
+                
+              <!------------------------------ TITULOS DE LAS SECCIONES  ----------------------------------->
+                
+                
+				<ul class="vs-nav">
+					<li><a href="#section-1">Tu as vu</a></li>
+					<li><a href="#section-2">Tu as vécu</a></li>
+					<li><a href="#section-3">Tu as touché</a></li>
+					<li><a href="#section-4">Tu as su</a></li>
+				</ul>
+                
+			</header>
+            
+			<div class="vs-wrapper"> <!--style="position:fixed">  <!--Para que no se mueve la pagina -->
+            
+            
+            <!------------------------------PRIMERA SECCION  ----------------------------------->
+                            
+                <section id="section-1">
+					<div class="vs-content">
+						<h2 class="rw-sentence">
+                        		<span>Tu as vu </span>
+                                <br/>
+                               <span>véritablement tu as vu </span>
+                               <br/>		
+                               <div class="rw-words rw-words-1">
+									<span>la neige</span>
+									<span>la brise</span>
+									<span>la neige</span>
+									<span>la brise</span>
+									<span>la neige</span>
+						       </div>
+                               <span style="opacity:0">la neige&nbsp;</span>
+                               <span> les astres les pas feutrés de</span>
+                               <div class="rw-words rw-words-1">
+									<span>la brise</span>
+                                    <span>la neige</span>
+									<span>la brise</span>
+									<span>la neige</span>
+									<span>la brise</span>
+                                </div>
+                        </h2>
+                                    <script type="text/processing">
+									
+									
+										float yoff = 0.0;        // 2nd dimension of perlin noise
+
+											void setup() {
+												
+											 // VERIFICO LAS DIMENSIONES DE LA PANTALLA 
+											 
+												 if (ancho == 1024 && largo == 600) {  // MOST NOTEBOOKS
+												 
+												 		size(570, 300); // (640, 360)
+												 
+												 } else if (ancho == 1280 && largo == 800) {  // MACBOOK PRO 13
+													 
+													 	size(640, 300); // (640, 360)
+													 
+												} else if (ancho == 1366 && largo == 768) {  // SOME LAPTOPS
+													 
+													 	size(660, 300); // (640, 360) 
+												
+												} else if (ancho == 1440 && largo == 900) {  // MACBOOK PRO 15
+												
+														size(700, 300); // (640, 360) 
+												
+											    } else if (ancho == 2560 && largo == 1440) { // MI PANTALLA GRANDE
+													
+														size(1180, 300); // (640, 360)
+													
+												}
+											  
+											}
+											
+											void draw() {
+											 
+											  background(0, 0);// 34 //51 #00928C
+											
+											  fill(255);
+											  // We are going to draw a polygon out of the wave points
+											  beginShape(); 
+											  
+											  float xoff = 0;       // Option #1: 2D Noise
+											  // float xoff = yoff; // Option #2: 1D Noise
+											  
+											  // Iterate over horizontal pixels
+											  for (float x = 0; x <= width; x += 10) {
+												// Calculate a y value according to noise, map to 
+												float y = map(noise(xoff, yoff), 0, 1, 200,300); // Option #1: 2D Noise
+												// float y = map(noise(xoff), 0, 1, 200,300);    // Option #2: 1D Noise
+												
+												// Set the vertex
+												vertex(x, y); 
+												// Increment x dimension for noise
+												xoff += 0.05;
+											  }
+											  // increment y dimension for noise
+											  yoff += 0.01;
+											  vertex(width, height);
+											  vertex(0, height);
+											  endShape(CLOSE);
+											}
+									
+										
+                                    </script>
+                                    <canvas></canvas>
+					</div>
+				</section>
+                
+                
+                
+             <!------------------------------------------------------------------------------------------------>   
+                
+                
+                
+                
+                <!------------------------------- SEGUNDA SECCION ------------------------------------->   
+                
+				<section id="section-2">
+					<div class="vs-content">
+						<h2 class="rw-sentence">
+                        		<span>Tu as vécu</span> 
+                            <br/>
+                                <span>comme un coup sur le front</span> 
+                                <br/>
+                                <div class="w-words w-words-1">
+										<span>l'instant</span>
+										<span>la chute</span>
+										<span>la fuite</span>
+										<span>l'instant</span>
+										<span>la chute</span>
+										<span>la fluite</span>
+							   </div>
+                               <span style="opacity:0">l'instant&nbsp;</span> 
+                               <span>le souffle bref</span> 
+                               <span>la chute</span> 
+                               <div class="w-words w-words-1">
+										<span>la fuite</span>
+										<span>l'instant</span>
+										<span>la chute</span>
+										<span>la fluite</span>
+										<span>l'instant</span>
+										<span>la fluite</span>
+							   </div>
+                               <span style="opacity:0">la fuite</span>  
+                         </h2>
+                         <br/><br/>
+                                    <script type="text/processing">
+											ArrayList allDrops;
+
+											Cloud cloudA = new Cloud(300, 50, 50, -1);
+											Cloud cloudB = new Cloud(200,60,70, 1);
+
+
+											void setup() {
+												 
+												  
+												   // VERIFICO LAS DIMENSIONES DE LA PANTALLA 
+											 
+												 if (ancho == 1024 && largo == 600) {  // MOST NOTEBOOKS
+												 
+												 		size(710, 240); // (640, 360)
+												 
+												 } else if (ancho == 1280 && largo == 800) {  // MACBOOK PRO 13
+													 
+													 	size(795, 240); // (640, 360)
+													 
+												} else if (ancho == 1366 && largo == 768) {  // SOME LAPTOPS
+													 
+													 	size(820, 240); // (640, 360) 
+												
+												} else if (ancho == 1440 && largo == 900) {  // MACBOOK PRO 15
+												
+														size(850, 240); // (640, 360) 
+												
+											    } else if (ancho == 2560 && largo == 1440) { // MI PANTALLA GRANDE
+													
+														 size(1590, 240); // (640, 360)
+													
+												}
+												  
+												  
+												  smooth();
+												  frameRate(40);
+												  allDrops = new ArrayList();
+											}
+
+
+											void draw() {
+											  background(0,0);
+											
+											  addDrop();
+											
+												  // render all the raindrops
+												  for (int j=0; j<allDrops.size();j++) {
+													Raindrop drop = (Raindrop) allDrops.get(j);
+													drop.update();
+												  }
+												  
+													cloudA.update();
+													cloudB.update();
+											}
+
+
+
+											void addDrop() {
+											
+												  int dropX=int(random(0, 1590));
+												  int dropY=int(random(-100, 100));
+												  int dropSpeed=int(random(1, 3));
+												  Raindrop drop = new Raindrop(dropX, dropY, 20);
+												  allDrops.add(drop);
+											}
+
+
+											class Cloud {
+												  int x, y, r;
+												  float xSpeed;
+												
+												  Cloud(int x_, int y_, int r_, float xSpeed_) {
+													x=x_;
+													y=y_;
+													r=r_;
+													xSpeed= xSpeed_;
+											  }
+											  
+											  void update(){
+												  display();
+												  drift(); 
+											  }
+											
+											  void display() {
+													noStroke();
+													fill(200,200,200,240);
+													ellipse(x, y, r, r);  
+													ellipse(x-(r/2), y, r*.8, r*.8);
+											  }
+											  
+											  void drift(){
+												   x+=xSpeed; 
+												   if (x>width || x < 0) xSpeed=xSpeed*-1;
+											  }
+											  
+											}
+											class Raindrop {
+											  int x, y, len;
+											float ySpeed = 4.5;
+											
+											  Raindrop(int x_, int y_, int len_) {
+												x=x_;
+												y=y_;
+												len = len_;
+											  }
+											
+											void update(){
+												 display();
+												 fall(); 										  
+											}
+											
+											  void display() {
+													stroke(0);
+													line(x, y, x, y+len);
+											  }
+											  
+											  void fall(){
+											   y+=ySpeed; 
+											  }
+											  
+											}
+											
+                                    </script>
+                                    
+                                    <canvas></canvas>
+					</div>
+				</section>
+                
+                
+                
+                <!------------------------------------------------------------------------------------------------>
+                
+                
+            
+            
+            
+            	 <!------------------------------------ TERCERA SECCION -------------------------------------------->
+            
+  
+                
+                
+                <section id="section-3">
+					<div class="vs-content">
+						<h2 class="rw-sentence">
+                        		<span>Tu as touché </span>
+                                <br/>
+                               	<span>pour de vrai tu as touché</span> 
+                               	<br/>
+                               
+                                 <div class="rw-words rw-words-1">
+									<span>l'assiette</span>
+									<span>le visage</span>
+									<span>l'assiette</span>
+									<span>le visage</span>
+									<span>l'assiette</span>
+						       	</div>
+                               
+                               	<span style="opacity:0">&nbsp;l'assiette&nbsp;</span>
+                                 
+                                <span>le pain </span>
+                                 <div class="rw-words rw-words-1">
+									<span>le visage</span>
+									<span>l'assiette&nbsp;</span>
+									<span>le visage</span>
+									<span>l'assiette&nbsp;</span>
+									<span>le visage</span>
+                                    
+                                       
+						       	</div>                            
+                                <span style="opacity:0">&nbsp;le visage&nbsp;</span> 
+                                <span>de cette femme que tu aimes tant</span>
+                                <script type="text/processing">
+							
+									
+									
+										float yoff = 0.0;        // 2nd dimension of perlin noise
+
+											void setup() {
+												
+												 // VERIFICO LAS DIMENSIONES DE LA PANTALLA 
+											 
+												 if (ancho == 1024 && largo == 600) {  // MOST NOTEBOOKS
+												 
+												 		size(460, 300); // (640, 360)
+												 
+												 } else if (ancho == 1280 && largo == 800) {  // MACBOOK PRO 13
+													 
+													 	size(500, 300); // (640, 360)
+													 
+												} else if (ancho == 1366 && largo == 768) {  // SOME LAPTOPS
+													 
+													 	size(640, 300); // (640, 360) 
+												
+												} else if (ancho == 1440 && largo == 900) {  // MACBOOK PRO 15
+												
+														size(740, 300); // (640, 360) 
+												
+											    } else if (ancho == 2560 && largo == 1440) { // MI PANTALLA GRANDE
+													
+														size(980, 300); // (640, 360)
+													
+												}
+											}
+											
+											void draw() {
+											 
+											  background(0, 0);// 34 //51 #00928C
+											
+											  fill(255);
+											  // We are going to draw a polygon out of the wave points
+											  beginShape(); 
+											  
+											  float xoff = 0;       // Option #1: 2D Noise
+											  // float xoff = yoff; // Option #2: 1D Noise
+											  
+											  // Iterate over horizontal pixels
+											  for (float x = 0; x <= width; x += 10) {
+												// Calculate a y value according to noise, map to 
+												float y = map(noise(xoff, yoff), 0, 1, 200,300); // Option #1: 2D Noise
+												// float y = map(noise(xoff), 0, 1, 200,300);    // Option #2: 1D Noise
+												
+												// Set the vertex
+												vertex(x, y); 
+												// Increment x dimension for noise
+												xoff += 0.05;
+											  }
+											  // increment y dimension for noise
+											  yoff += 0.01;
+											  vertex(width, height);
+											  vertex(0, height);
+											  endShape(CLOSE);
+											}
+									
+										
+                                    </script>
+                                    
+                                    <canvas></canvas>
+							
+                        </h2>
+					</div>
+				</section>
+                
+                
+                <!------------------------------------------------------------------------------------------------>
+                
+                
+                <!------------------------------------ CUARTA SECCION -------------------------------------------->
+                
+                
+                
+				<section id="section-4">
+					<div class="vs-content">
+						<h2 class="rw-sentence">
+                        	<span>Tu as su </span>
+                        	<br/>
+                             <span>par chaque pore de la peau su</span>
+                             <br/>
+                             <span>que tes</span> 
+                              <div class="w-words w-words-1">
+									<span>yeux</span>
+									<span>mains</span>
+									<span>sexe</span>
+									<span>coeur</span>
+									<span>yeux</span>
+						       </div>
+                             		<span style="opacity:0">yeux,&nbsp;</span> 
+                                    <span>tes</span>
+                                    <div class="w-words w-words-1">
+										<span>mains</span>
+										<span>coeur</span>
+										<span>jeter</span>
+										<span>sexe</span>
+                                        <span>mains</span>
+						       		</div> 
+                                    <span style="opacity:0">mains,&nbsp;</span> 
+                                    <span>ton</span>
+                                    <div class="w-words w-words-1">
+										<span>sexe</span>
+										<span>coeur</span>
+										<span>jeter</span>
+										<span>mains</span>
+                                        <span>coeur</span>
+						       		</div> 
+                                    <span style="opacity:0">sexe,&nbsp;</span>
+                                    <span>ton</span>
+                                    <div class="w-words w-words-1">
+										<span>coeur</span>
+										<span>jeter</span>
+										<span>mains</span>
+										<span>sexe</span>
+                                        <span>jeter</span>
+						       		</div> 
+                                    <span style="opacity:0">coeur,&nbsp;</span>
+                                    <span>tendre</span>
+                               <br/>
+                               <span>il fallait les</span> 
+                               <div class="w-words w-words-1">
+										<span>jeter</span>
+										<span>mains</span>
+										<span>coeur</span>
+										<span>pleurer</span>
+										<span>sexe</span>
+						       		</div>
+                               <span style="opacity:0">jeter&nbsp;</span> 
+                               <br/>
+                               <span>il fallait les</span>
+                               <div class="w-words w-words-1">
+										<span>pleurer</span>
+										<span>mains</span>
+										<span>sexe</span>
+										<span>inventer</span>
+										<span>coeur</span>
+						       		</div> 
+                               <span style="opacity:0">pleurer&nbsp;</span> 
+                               <br/>
+                               <span>il fallait à nouveau les</span> 
+                               <div class="w-words w-words-1">
+										<span>inventer</span>
+										<span>sexe</span>
+										<span>mains</span>
+										<span>pleurer</span>
+										<span>coeur</span>
+						       		</div> 
+                               <span style="opacity:0">inventer.&nbsp;</span> 
+                        </h2>
+	                        
+                        	<script type="text/processing">
+								
+								// PINK BUTTERFLIES
+							
+								var[] movers = new Mover[20];
+								var mouse;
+								var minDist;
+								var maxDist;
+
+								void setup() {
+									
+									
+									 // VERIFICO LAS DIMENSIONES DE LA PANTALLA 
+											 
+												 if (ancho == 1024 && largo == 600) {  // MOST NOTEBOOKS
+												 
+												 		size(800, 100); // (640, 360)
+												 
+												 } else if (ancho == 1280 && largo == 800) {  // MACBOOK PRO 13
+													 
+													 	size(900, 100); // (640, 360)
+													 
+												} else if (ancho == 1366 && largo == 768) {  // SOME LAPTOPS
+													 
+													 	size(930, 100); // (640, 360) 
+												
+												} else if (ancho == 1440 && largo == 900) {  // MACBOOK PRO 15
+												
+														size(960, 100); // (640, 360) 
+												
+											    } else if (ancho == 2560 && largo == 1440) { // MI PANTALLA GRANDE
+													
+														 size(1800,100);
+													
+												}
+									  smooth();
+									  frameRate(20);
+									  textSize(10);
+									  textAlign(CENTER,CENTER);
+									  mouse = new PVector(width/2, height/2);
+									  
+									  for(int i = 0; i < movers.length ; i ++ ) {
+										movers[i] = new Mover(random(width), random(height));
+									  }
+									
+									  minDist = 5;
+									  maxDist = minDist * minDist*0.5;
+									  noStroke();
+									  colorMode(HSB,360,100,100,100);
+									  fill(360,50,100,80);
+								}
+
+
+								void draw() {
+									 
+									  mouse.set(mouseX, mouseY);
+									 
+									  for(int i = 0; i < movers.length; i ++ ) {
+										movers[i].applyForce(gravity(movers[i]));
+										movers[i].wander();
+									  }
+									  
+									  background(0,0);
+									
+									  for(int i = 0; i < movers.length; i ++ ) {
+										movers[i].display();
+									  }
+								}
+
+								 PVector gravity(Mover mov) {
+									  PVector force = PVector.sub(mouse, mov.position);
+									  float distance = force.mag();
+									  distance = constrain(distance, minDist, maxDist);
+									  float m = (100) / (distance * distance);
+									  force.normalize();
+									  force.mult(m);
+									  return force;
+								  }
+
+
+									class Mover {
+									
+									   var position;
+									   var velocity;
+									   var acceleration;
+									   var size;
+									   var radius;
+									   var wandertheta;
+									   var wanderRadius;
+									   var wanderDistance;
+									   var wanderCircleLoc;
+									   var wanderCircleOffset;
+									   var maxspeed = 8;
+									   var maxforce = 1.8;
+  
+								  Mover(var x_, var y_) {
+								
+									position = new PVector(x_,y_);
+									velocity = new PVector();
+									acceleration = new PVector();
+									wanderCircleOffset = new PVector();
+									wanderCircleLoc = new PVector();
+									wandertheta = 0;
+									size = 20;
+									radius = size *0.5;
+									wanderRadius = 4;
+									wanderDistance = 70;
+									
+								  }
+ 
+								  void applyForce(PVector force) {
+									acceleration.add(force);
+								
+								  } 
+  
+								  void update() {
+									velocity.add(acceleration);
+									position.add(velocity);
+									acceleration.mult(0);
+								
+								  }
+  
+
+								  void display() {
+									
+										update();
+										
+										stayWithin();
+										
+										pushMatrix();
+										  translate(position.x,position.y);
+										  sparkle(5);
+										popMatrix();
+										
+								  }
+
+								void sparkle(int vertices) {
+										beginShape();
+											for(var i = 0; i < vertices; i++)  { 
+											  var xx = random(-size,size);
+											  var yy = random(-size,size);
+											  vertex(xx,yy);
+											}
+										endShape(CLOSE);
+							  }
+  
+								void wander() {
+									wanderCircleLoc = velocity.get();
+									wanderCircleLoc.normalize();
+									wanderCircleLoc.mult(wanderDistance);
+									wanderCircleLoc.add(position.get());
+							
+									if (wanderRadius > 0) {
+										var change = 0.3;
+										wandertheta += random(-change, change); 
+							
+										var h = velocity.heading2D();
+										wanderCircleOffset.set(wanderRadius * cos(wandertheta + h), wanderRadius * sin(wandertheta + h));
+									} else {
+										wanderCircleOffset.set(0, 0);
+									}
+									var tgt = PVector.add(wanderCircleLoc, wanderCircleOffset);
+									seek(tgt);
+							
+								}
+
+								void seek(PVector tgt) {
+							
+									var desired = PVector.sub(tgt, position);
+									desired.normalize();
+									desired.mult(maxspeed);
+									desired.sub(velocity);
+									desired.limit(maxforce);
+									
+									applyForce(desired);
+							
+								}
+
+								void stayWithin() {
+									var r = size * 0.5;
+									var desired = new PVector();
+									if (position.x < r) {
+										desired = new PVector(maxspeed * 5, velocity.y);
+									} else if (position.x > width - r) {
+										desired = new PVector(-maxspeed * 5, velocity.y);
+									} else if (position.y < r) {
+										desired = new PVector(velocity.x, maxspeed * 5);
+									} else if (position.y > height - r) {
+										desired = new PVector(velocity.x, -maxspeed * 5);
+									}
+									desired.sub(velocity);
+									desired.limit(maxforce);
+									applyForce(desired);
+							
+								}
+							
+							}	
+                            </script>
+                                    
+                            <canvas></canvas>
+					</div>
+				</section>
+                
+                    						<!-- SECCION AUDIO -->
+                                            
+                   
+                        <audio preload="auto" hidden loop controls autoplay>
+							<source src="audio/Agua Y Piano.mp3">
+                            <source src="audio/Agua Y Piano.mp3">
+						</audio>	
+					</div>
+  
+			</div>
+            
+           
+            
+		</div><!-- /vs-container -->
+        
+        
+		<script src="js/classie.js"></script>
+		<script src="js/hammer.min.js"></script>
+		<script src="js/main.js"></script>
+    
+	</body>
+</html>

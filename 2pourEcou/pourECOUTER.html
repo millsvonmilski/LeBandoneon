@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <title>Pour ecouter avec des ecouteurs</title>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Pour ecouter avec des ecouteurs" />
+		<meta name="keywords" content="julio, julio cortazar, argentina, le bandoneaon de cortazar, tango" />
+		
+        <!--link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/-->
+        <link rel="stylesheet" href="css/style.css" type="text/css"  />
+		<link rel="stylesheet" href="css/jplayer.codrops.css" type="text/css" />        
+		<link type="text/css" href="css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+        
+		<link href='http://fonts.googleapis.com/css?family=Terminal+Dosis+Light' rel='stylesheet' type='text/css' />
+        
+    </head>
+    
+    <body id = "pt" >
+
+
+		<div class="cd_wrapper" style="position:fixed">  <!--Para que no se mueve la pagina -->
+			
+            <div id="cd_background" class="cd_background">
+				<div class="cd_overlay"></div>
+				<div class="cd_loading"></div>
+			</div>
+            
+			<h1 class="cd_title">Ecouter<span>les alter egos</span></h1>     
+        <!--hétéronyme-->
+			
+			<div id="jquery_jplayer" class="jp-jplayer"></div>
+			<div id="jp-audio" class="jp-audio">
+				
+                <div class="jp-type-playlist">
+					<div id="jp_interface" class="jp-interface">
+							<ul class="jp-controls">
+								<li><a href="#" class="jp-play" tabindex="1">play</a></li>
+								<li><a href="#" class="jp-pause" tabindex="1">pause</a></li>
+								<li><a href="#" class="jp-stop" tabindex="1">stop</a></li>
+								<li><a href="#" class="jp-mute" tabindex="1">mute</a></li>
+								<li><a href="#" class="jp-unmute" tabindex="1">unmute</a></li>
+								<li><a href="#" class="jp-previous" tabindex="1">previous</a></li>
+								<li><a href="#" class="jp-next" tabindex="1">next</a></li>
+							</ul>
+                                    
+									<div class="jp-progress">
+							<div class="jp-seek-bar">
+								<div class="jp-play-bar"></div>
+										</div>
+									</div>
+						<div class="jp-volume-bar">
+							<div class="jp-volume-bar-value"></div>
+									</div>
+						<div class="jp-current-time"></div>
+						<div class="jp-duration"></div>
+								</div>
+					<div id="jp_playlist" class="jp-playlist">
+									<ul>
+							<li></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+                        
+                        
+			<div id="cd_container" class="cd_container">
+				<div class="cd_album cd_album_1" data-bgimg="images/1.jpg">
+					<h1 onClick="playAUDIO();">Cris</h1>
+					<a href="#" class="cd_back" onClick="playAUDIO()";>&laquo; Retourner</a>
+					<div class="cd_content">
+						<div class="cd_playlist">
+							<ul>
+								<li data-mp3="songs/09 - Peces En El Aire.mp3" data-oga="songs/09 - Peces En El Aire.ogg">
+                                <a id="cris1" onClick="cambioTEXTO(this.id)">L'amour bref</a></li>
+								<li data-mp3="songs/Rejaselectrificadas1er.mp3" data-oga="songs/Rejaselectrificadas1er.ogg">				
+                                <a id="cris2" onClick="cambioTEXTO(this.id)">Une lettre d'amour</a></li>
+							</ul>
+						</div>
+						<div id="crisUNO"class="cd_content_inner" style="visibility:visible">
+							<p>ce sont les mots qui contiennent</p>
+							<p>ta cruelle définition inaccessible,</p>
+                            <p>ce sont les choses qui gardent les substances</p>
+                            <p>dont tu es faite afin que quelqu'un</p>
+                            <p>boive et possède et brûle persuadé</p>
+                            <p>de te connaître entière,</p>
+                            <p>et tu n'es que Cris.</p>
+						</div>
+                        
+                        <div  id="crisDOS" class="cd_content_inner" style="visibility:hidden">
+							<p>Ne m'accordes pas de répit, ne me pardonne jamais.</p>
+							<p>Harcèle mon sang, que chaque cruauté soit toi qui reviens.</p>
+                            <p>Ne me laisse pas dormir, éloigne de moi la paix!</p>
+                            <p>Alors je gagnerai mon royaume</p>
+                            <p>et lentement je naîtrai.</p>
+						</div>
+                        
+					</div>
+				</div>
+                
+                
+                					<!------------- POLANCO ------------->
+                
+                
+				<div class="cd_album cd_album_2" data-bgimg="images/1.jpg">
+					<h1 onClick="playAUDIO()";>Polanco</h1>
+					<a href="#" class="cd_back" onClick="playAUDIO()";>&laquo; Retourner</a>
+					<div class="cd_content">
+						<div class="cd_playlist">
+							<ul>
+								<li data-mp3="songs/02 - Conejo Tecno.mp3" data-oga="songs/02 - Conejo Tecno.ogg"><a id="polanco1" onClick="cambioTEXTO(this.id)">Pertes et profits</a></li>
+								<li data-mp3="songs/10 - La Ciudad Se Está Apagando.mp3" data-oga="songs/10 - La Ciudad Se Está Apagando.ogg"><a id="polanco2" onClick="cambioTEXTO(this.id)">L'autre</a></li>
+							</ul>
+						</div>
+						<div id="polancoUNO" class="cd_content_inner" style="visibility:visible">
+							<p>De quel lieu me vient ce regard</p>
+							<p>qui quelquefois monte à mes yeux</p>
+							<p>quand je les laisse sur un visage</p>
+                            <p>se reposer de la distance ?</p>
+						</div>
+                        
+                        <div id="polancoDOS" class="cd_content_inner" style="visibility:hidden">
+							<p>Je ne saurai  pas déenouer mes chaussures et laisser la</p>
+							<p>ville me mordre les pieds,</p>
+							<p>je ne me saoûlerai pas sous les ponts, je ne ferai pas</p>
+                            <p>des fautes de style</p>
+                            <p>J'accepte ce destin de chemises repassées,</p>
+                            <p>j'arrive à temps aux cinémas, je cède ma place aux dames.</p>
+						</div>
+					</div>
+				</div>
+                
+                
+                
+                
+					                <!------------- CALAC ------------->
+                				
+                                
+                
+                
+				<div class="cd_album cd_album_3" data-bgimg="images/1.jpg">
+					<h1 onClick="playAUDIO()";>Calac</h1>
+					<a href="#" class="cd_back" onClick="playAUDIO()";>&laquo; Retourner</a>
+					<div class="cd_content">
+						<div class="cd_playlist">
+							<ul>
+								<li data-mp3="songs/Gotan Project - Vuelvo al Sur.mp3" data-oga="songs/Gotan Project - Vuelvo al Sur.ogg" ><a id="calac1" onClick="cambioTEXTO(this.id)";>AVEC TANGOS</a></li>
+								<li data-mp3="songs/Los Condenaditos2.mp3" data-oga="songs/Los Condenaditos2.ogg"><a id="calac2" onClick="cambioTEXTO(this.id)";>La Milonga</a></li>
+							</ul>
+						</div>
+						
+                        <div id="calacUNO" class="cd_content_inner" style="visibility: visible;">
+							<p>Je recommence à mentir avec grâce,</p>
+							<p>je me penche avec respect devant la glace</p>
+                            <p>qui reflète mon cou et ma cravate.</p>
+                            <p>Je crois que je suis ce monsieur qui sort</p>
+                            <p>tour les jours à neuf heures.</p>	
+						</div>
+                        
+                        <div id="calacDOS" class="cd_content_inner" style="visibility: hidden;">
+							<p>Toute la vie n'est qu'un passé</p>
+							<p>et toute rencontre est une perte</p>
+                            <p>Ô intarissable printemps,</p>
+                            <p>promesse de ce qui a été!</p>	
+						</div>
+                        
+                        				
+					</div>
+				</div>
+                
+                
+                
+						                <!------------- PORTRAIT DE FAMILLE ------------->
+                
+                
+                
+                
+				<div class="cd_album cd_album_4" data-bgimg="images/1.jpg">
+					<h1 onClick="playAUDIO()";>Portrait de famille</h1>
+					<a href="#" class="cd_back" onClick="playAUDIO()";>&laquo; Retourner</a>
+					<div class="cd_content">
+						<div class="cd_playlist">
+							<ul>
+								<li data-mp3="songs/02 - Anónimo Musical.mp3" data-oga="songs/02 - Anónimo Musical.ogg">Pectoral Premier</li>
+							</ul>
+						</div>
+                        
+						<div id="portraitUNO" class="cd_content_inner">
+							<p>Je ne te fatiguerai plus avec des poèmes.</p>
+							<p>Disons que je t'ai dit</p>
+                            <p>nuages, ciseaux, cerfs-volants, crayons,</p>
+                            <p>et que peut-être une fois</p>
+                            <p>tu as souri.</p>
+						</div>
+                        
+					</div>
+				</div>
+			</div>
+            
+            
+			<div id="cd_navigation" class="cd_navigation">
+				<a href="#" class="cd_prev">Previous</a>
+				<a href="#" class="cd_next">Next</a>
+			</div>
+            
+    		<div class="cd_footer">
+				<a class="cd_left" href="../0pening/acueil.html"/><span>&laquo; Accueil</span> </a>
+				<a href="../1pourLIRE/lireTITULO.html">Chapitre 1</a>
+				<a  href="../3parlezVous/parlezTITULO.html"/>Chapitre 3</a>
+			</div>
+            
+        
+           							 <!-- SECCION AUDIO -->
+                                            
+                    
+                    <div id="wrapper" style="visibility:hidden">
+						
+                        <audio id="audio" preload="auto" hidden loop controls autoplay>
+							<source src="songs/02 Despertar de mambo.mp3">
+                            <source src="songs/02 Despertar de mambo.ogg">
+						</audio>
+            
+		</div>
+     
+		<!-- jQuery -->
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
+		<!-- the mousewheel plugin - optional to provide mousewheel support -->
+		<script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+		<!-- the jScrollPane script -->
+		<script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
+		<!-- the transform plugin -->
+		<script type="text/javascript" src="js/jquery.transform-0.9.3.min_.js"></script>
+		<!-- the jPlayer plugin -->
+		<script type="text/javascript" src="js/jPlayer/jquery.jplayer.min.js"></script>
+		<!-- the playlist script (jPlayer demo code with some few changes) -->
+		<script type="text/javascript" src="js/playlist.js"></script>
+		<!-- the main script -->
+		<script type="text/javascript" src="js/jquery.template.js"></script>
+        
+							        <!------------- PARA CONTROLAR EL AUDIO PRINCIPAL  ------------->
+                                    
+                                    
+        <script type="text/javascript">
+        
+					        function playAUDIO() {
+
+							        var player = document.getElementById('audio');
+
+							        (player.paused == true) ? toggle(0) : toggle(1);
+
+							}
+
+							
+							function toggle(state) {
+
+						        var player = document.getElementById('audio');
+						        //var link = document.getElementById('radio-link');
+						        //var src = "http://192.81.248.91:8159/;";
+
+						        switch(state) {
+					                case 0:
+                    				   	player.load();
+                				        player.play();
+ 				                       	//link.innerHTML = 'Pause';
+                				        player_state = 1;
+                        				break;
+                					
+									case 1:
+                        				player.pause();
+                        				player.currentTime = 0;
+										//player.src = '';
+										//link.innerHTML = 'Play';
+										player_state = 0;
+										break;
+									}
+							}
+							
+							
+								<!-- PARA CONTROLAR EL CAMBIO DE PARRAFOS A CADA CLICK -->
+ 
+							
+							
+								function cambioTEXTO(clicked_id){
+									
+									var calacUno      = document.getElementById('calacUNO');
+									var calacDos 	  = document.getElementById('calacDOS');
+									var polancoUno	  = document.getElementById('polancoUNO');
+									var polancoDos	  = document.getElementById('polancoDOS');
+									var crisUno		  = document.getElementById('crisUNO');
+									var crisDos		  = document.getElementById('crisDOS');		
+									
+									
+										// PARA VERIFICAR CALAC
+									
+									
+										if (clicked_id == "calac1") {
+											
+												calacUno.style.visibility = "visible";
+												calacDos.style.visibility = "hidden";
+											
+										} else if (clicked_id == "calac2") {
+											
+												calacUno.style.visibility = "hidden";
+												calacDos.style.visibility = "visible";
+											
+										// PARA VERIFICAR POLANCO	
+										
+										} else if (clicked_id == "polanco1") {
+											
+												polancoUno.style.visibility = "visible";
+												polancoDos.style.visibility = "hidden";
+											
+										} else if (clicked_id == "polanco2") {
+											
+												polancoUno.style.visibility = "hidden";
+												polancoDos.style.visibility = "visible";	
+										
+										// PARA VERIFICAR CRIS	
+										
+										
+										} else if (clicked_id == "cris1") {
+											
+												crisUno.style.visibility = "visible";
+												crisDos.style.visibility = "hidden";
+										
+										} else if (clicked_id == "cris2") {
+											
+												crisUno.style.visibility = "hidden";
+												crisDos.style.visibility = "visible";
+											
+											}
+								
+									}		  
+		
+        
+        </script>
+        
+        
+        
+        
+        							<!------------- LINEAS QUE SE MUEVEN EN EL FONDO  ------------->
+        			
+        
+        <script type="text/javascript" src="js/pt.min.js" charset="utf-8"></script>
+    	<script type="text/javascript" src="js/pt.js" charset="utf-8"></script>
+        <script type="text/javascript" src="js/pt-ns.js" charset="utf-8"></script>
+        <script type="text/javascript" src="js/pt-ns.min.js" charset="utf-8"></script>
+        
+        <script type="text/javascript" language="JavaScript" charset="utf-8">
+						
+						//// 1. Define Space and Form
+							var colors = {
+										  a1: "#ff2d5d", a2: "#42dc8e", a3: "#2e43eb", a4: "#ffe359",
+										  b1: "#96bfed", b2: "#f5ead6", b3: "#f1f3f7", b4: "#e2e6ef"
+										};
+							var space = new CanvasSpace("pt").setup( {bgcolor: "#222"} ); //#ffc000
+							var form = new Form( space );
+
+
+						//// 2. Create Elements
+							
+							var pts = [];
+							var center = space.size.$divide(2);
+							var line = new Line(center).to( space.size );
+
+							var count = 200;
+							var r = Math.min( space.size.x, space.size.y ) * 0.8;
+							
+							for (var i=0; i<count; i++) {
+								  var p = new Vector( Math.random()*r-Math.random()*r, Math.random()*r-Math.random()*r );
+									  p.moveBy( center ).rotate2D( i*Math.PI/count, center );
+									  pts.push( p );
+								}
+
+
+						//// 3. Visualize, Animate, Interact
+						
+						space.add({
+									  animate: function(time, fps, context) {
+
+						    for (var i=0; i<pts.length; i++) {
+
+      					// rotate the points slowly
+					
+					      var pt = pts[i];
+						      pt.rotate2D( Const.one_degree / 20, center );
+						      form.stroke( false ).fill( colors["a" + (i % 4)] ).point( pt, 1 );
+
+      				   // get line from pt to the mouse line
+      
+	  					  var ln = new Line( pt ).to( line.getPerpendicularFromPoint( pt ) );
+
+				      // opacity of line derived from distance to the line
+      					 
+						 var opacity = Math.min( 0.8, 1 - Math.abs( line.getDistanceFromPoint( pt ) ) / r );
+					
+					        form.stroke( "rgba(255,255,255," + opacity + ")", 2*(i%20)/20 ).fill( false ).line( ln );
+    							}
+  							},
+
+						  onMouseAction: function(type, x, y, evt) {
+							  
+							    if (type=="move") {
+										      line.p1.set( x, y );
+    							}
+  						  },
+
+					   
+					   onTouchAction: function(type, x, y, evt) {
+    				  			this.onMouseAction( type, x, y );
+  						}
+					});
+
+
+					 // 4. Start playing
+					 
+					space.bindMouse();
+					space.bindTouch();
+					space.play();
+        
+        </script>
+        
+        
+    </body>
+</html>

@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		
+        <title>Parlez, vous avez trois minutes</title>
+        
+        <style>
+    	   		 canvas:focus{outline:none;}
+
+			
+	    </style>
+        
+        <meta name="description" content="Parlez, vous avez trois minutes" />
+		<meta name="keywords" content="julio, julio cortazar, argentina, le bandoneaon de cortazar, tango" />
+	
+       
+		<link href='http://fonts.googleapis.com/css?family=Flamenco' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/slideshow.css" />
+		
+		<script src="js/snap.svg-min.js"></script>
+		<script src="js/modernizr.custom.js"></script>
+        <script src="js/processing.js"></script>
+        
+        
+        <script>
+			/*
+				VIEWPORT BUG FIX
+				iOS viewport scaling bug fix, by @mathias, @cheeaun and @jdalton
+			*/
+			
+			
+			(function(doc){var addEvent='addEventListener',type='gesturestart',qsa='querySelectorAll',scales=[1,1],meta=qsa in doc?doc[qsa]('meta[name=viewport]'):[];function fix(){meta.content='width=device-width,minimum-scale='+scales[0]+',maximum-scale='+scales[1];doc.removeEventListener(type,fix,true);}if((meta=meta[meta.length-1])&&addEvent in doc){fix();scales=[.25,1.6];doc[addEvent](type,fix,true);}}(document));
+			
+			
+			
+			// DEFINO LAS VARIABLES PARA CONTROLAR LA TALLA DE MIS CANVAS
+			
+			var ancho = screen.width;
+			var largo = screen.height;
+			
+			
+		</script>
+        
+
+	</head>   
+	<body id="pt">
+
+		<div class="container">
+        				
+            
+			<div id="slideshow" class="slideshow">
+                
+				<ul>
+                
+                <!-- PRIMERA PAGINA -->
+                
+					<li>
+						<div class="slide">
+                            
+                            <div id="vs-container" class="vs-container">
+								<div class="codrops-top clearfix">
+									<a class="codrops-icon codrops-icon-prev" href="../0pening/acueil.html"/><span>Accueil</span></a>
+									<span class="right">
+                                    	<a href="" style="opacity:0">Parlez, vous avez trois minutes</a>
+                                        <a href="" style="opacity:0">Parlez, vous avez trois minutes</a>
+                						<a href="../1pourLIRE/lireTITULO.html">Chapitre 1</a>
+                                        <a href="" style="opacity:0">Parlez, vous avez trois minutes</a>
+                                        <a href="../2pourEcou/EcouTITULO.html">Chapitre 2</a>
+                                        <a href="" style="opacity:0">Parlez, vous avez trois minutes</a>
+                                        <a class="codrops-icon" href="../0pening/index.html"/>
+                					<span>Redémarrer</span></a></span>
+								</div>
+                            
+                            
+                            
+                            <img class="icon" src="img/1.gif" height="200" width="600"/>
+							<!--h1>Préludes et Sonnets</h1-->
+							<blockquote>
+                            <!--p>Sans doute avait-il la fièvre. Mais peut-être la fièvre <br />
+                            permet-elle de voir et d'entendre ce qu'autrement<br />
+                            on ne voit et n'entend pas.<br /> <br />
+                            Cliquez dessus
+                            </p-->
+                            <p>color is what my arms feel<br/> 
+                                even through shirt sleeves.<br/>
+                                taste is the work of my eyes, my lips and tongue see.<br/>
+                          		 love: it is a tonic I drink with my senses.<br/>
+                                 it is molasses, sassafras.	
+                                 <br /> <br />
+                            Cliquez ci-dessus
+                                </p>
+                            </blockquote>    
+                            
+                            
+                           <script type="text/processing">
+      										
+										Emitter emitter;
+										String tinkle;
+										String waterStr; 
+										ArrayList splashList; 
+										Water water; 
+										int prevTime = 0;
+										int curTime = 0;
+										float deltaTime = 0.0; 
+										PVector mouseV;
+										float gravity = 9.8;
+ 
+									void setup() {
+									
+										// VERIFICO LAS DIMENSIONES DE LA PANTALLA 
+											 
+										if (ancho == 1024 && largo == 600) {  // MOST NOTEBOOKS
+												 
+												 		size(560, 150); // (640, 360)
+												 
+										} else if (ancho == 1280 && largo == 800) {  // MACBOOK PRO 13
+													 
+													 	size(590, 150); // (640, 360)
+													 
+										} else if (ancho == 1366 && largo == 768) {  // SOME LAPTOPS
+													 
+													 	size(640, 150); // (640, 360) 
+												
+										} else if (ancho == 1440 && largo == 900) {  // MACBOOK PRO 15
+												
+														size(700, 200); // (640, 360) 
+												
+										} else if (ancho == 2560 && largo == 1440) { // MI PANTALLA GRANDE
+													
+														size(1180, 300);
+													
+										}
+							 
+										  background(0,0);
+										  smooth();
+										  textSize(38); 
+										  tinkle = "sonnets";
+										  waterStr = " Préludes et Sonnets "; 
+										  emitter = new Emitter();
+										  mouseV = new PVector(0, 0);  
+										  water = new Water(); 
+										  splashList = new ArrayList();   
+									}
+ 
+									void draw() {
+									  background(0,0);  
+									  Update();
+									  Render();
+									}
+ 
+									void Update() {
+									  prevTime = curTime;
+									  curTime = millis();
+									  deltaTime = (curTime - prevTime) / 1000.0f;   
+									  mouseV = new PVector(mouseX - pmouseX, mouseY - pmouseY);   
+									  water.Update();
+									  emitter.Update();   
+									  SplashEmitter e = null;
+									  // Update splash emitters
+									  for(int i = 0; i < splashList.size(); i++)
+									  {
+										e = (SplashEmitter)splashList.get(i);
+										e.Update();
+										if(e._baleted)
+										{
+										  splashList.remove(i);
+										  e = null;
+										  i--;
+										}
+									  }   
+									}
+ 
+									void mousePressed()
+									{
+									  emitter._active = !emitter._active;
+									}
+									 
+									void Render()
+									{ 
+									  water.Render();
+									  emitter.Render();   
+									  SplashEmitter e = null;
+									  // Update splash emitters
+									  for(int i = 0; i < splashList.size(); i++)
+									  {
+										e = (SplashEmitter)splashList.get(i);
+										e.Render();
+									  }
+									}
+ 
+									//for spraying letters
+									
+									class Emitter {
+									  PVector _p;
+									  PVector _dir;
+									  float _speed;
+									  float _freq; // 1 particle emitted per this time
+									  float _variance;
+									  ArrayList _particleList;
+									  int _maxParticles;
+									  float _timer;
+									  int _currentChar;
+									  Boolean _active;
+									   
+									  Emitter()
+									  {
+										_particleList = new ArrayList();
+										_p = new PVector(100, 100);
+										_dir = new PVector(0.5, -0.5);
+										_speed =350;
+										_freq = 0.08;
+										_variance = 0.1;
+										_maxParticles = 100;
+										_timer = 0.0;
+										_currentChar = 0;
+										_active = false;
+									  }
+									   
+									  Emitter(PVector pos, PVector dir, float speed, float freq, int maxParticles)
+									  {
+										_particleList = new ArrayList();
+										_p = pos;
+										_dir = dir;
+										_speed = speed;
+										_freq = freq;
+										_variance = 0.1;
+										_maxParticles = maxParticles;
+										_timer = 0.0;
+										_active = false;
+									  }
+									   
+									  void Update()
+									  {
+										_p = new PVector(mouseX, mouseY);
+										_timer += deltaTime;
+										while(_timer >= _freq)
+										{
+										  if(_active)
+										  {
+											EmitParticle();
+										  }      
+										  _timer -= _freq;
+										}     
+										// Update all particles
+										for(int i = 0; i < _particleList.size(); i++)
+										{
+										  Letter l = (Letter)_particleList.get(i);
+										  l.Update();      
+										  if(l._baleted)
+										  {
+											_particleList.remove(i);
+											l = null;
+											i--;
+										  }
+										}
+									  }
+									   
+									  void Render()
+									  {
+										 fill(water._r, water._g, water._b);
+										for(int i = 0; i < _particleList.size(); i++)
+										{
+										  Letter l = GetLetter(i);
+										  pushMatrix();
+										  translate(l._p.x, l._p.y);
+										  rotate(l._angle);
+										  text(l._letter, 0, 0);
+										  popMatrix();
+										  pushMatrix();
+										  translate(2*mouseX-l._p.x,l._p.y);
+										  rotate(-l._angle);
+										  text(l._letter, 0, 0);
+										  popMatrix();
+										}
+									  }
+									   
+									  void EmitParticle()
+									  {
+										if(tinkle.charAt(_currentChar) != ' ')
+										{
+										  Letter l = new Letter();
+										  l._p = new PVector(_p.x, _p.y);
+										  l._v = new PVector((_dir.x + random(-_variance, _variance)) * _speed, (_dir.y) * _speed + mouseV.y);
+										  l._a = new PVector(0, gravity);
+										  l._angleV = random(-0.05, 0.05);
+										  l._width = textWidth(tinkle.charAt(_currentChar));     
+										  l._letter = tinkle.charAt(_currentChar);       
+										  _particleList.add(l);
+										}     
+										_currentChar++;
+										if(_currentChar >= tinkle.length())
+										{
+										  _currentChar = 0;
+										}
+									  }
+									   
+									
+									   
+									  Letter GetLetter(int i)
+									  {
+										return (Letter)_particleList.get(i);
+									  }
+									}
+									
+									//get letters for Emitter
+									class Letter {
+									  PVector _p;
+									  PVector _v;
+									  PVector _a;
+									  PVector _prevP;
+									  float _width;
+									  float _angle;
+									  float _angleV;
+									  char _letter;
+									  float _friction;
+									  float _impactFriction;
+									  float _splashFactor;
+									  Boolean _baleted;  
+									  final int STATE_OUT = 0;
+									  final int STATE_IN = 1;
+									  int _state;
+									   
+									  Letter()
+									  {
+										_p = new PVector(width / 2, height / 2);
+										_prevP = _p;
+										_v = new PVector(0, 0);
+										_a = new PVector(0, 0);
+										_width = 0;
+										_angle = 0;
+										_angleV = 0;
+										_letter = 'a';
+										_friction = 0.98;
+										_impactFriction = 0.35;
+										// 
+										_baleted = false;
+										_state = STATE_OUT;
+									  }
+									   
+									  Letter(PVector pos, PVector vel, PVector acc, float a, float av, float lWidth, char letter)
+									  {
+										_p = pos;
+										_prevP = _p;
+										_v = vel;
+										_a = acc;
+										_width = lWidth;
+										_angle = a;
+										_angleV = av;
+										_letter = letter;
+										_friction = 0.98;
+										_impactFriction = 0.35;
+										// 
+										_baleted = false;
+										_state = STATE_OUT;
+									  }
+									   
+									  void Update()
+									  {
+										_prevP = new PVector(_p.x, _p.y);     
+										_v.x += _a.x;
+										_v.y += _a.y;
+										_p.x += _v.x * deltaTime;
+										_p.y += _v.y * deltaTime;     
+										_angle += _angleV;     
+										if(_p.x < -_width || _p.x > width + _width)
+										{
+										  _baleted = true;
+										}
+										else if(_p.y < -100 + textDescent())
+										{
+										  _baleted = true;
+										}
+										 
+										// Below water level and out of water
+									   if(_p.y > water._height && _state == STATE_OUT)
+										{
+										  _state = STATE_IN;
+										  _v.x *= _friction;
+										  _v.y *= _impactFriction;
+										  _angleV *= 0.98;      
+										  if(water._height < height/2){
+											water._height = height/2;
+										  }else{
+											water._height -= 0.2; 
+										  }     
+										  if(_prevP.y < water._height)
+										  {
+											SplashEmitter e = new SplashEmitter(new PVector(_p.x, water._height - 20),
+											  new PVector(0, -1), _v.y * 0.65, 30);
+											splashList.add(e);
+										  }
+										}
+									  }
+									}
+									 
+									//get particles for splashemitter
+									class Particle {
+									  PVector _p;
+									  PVector _v;
+									  PVector _a;
+									  char _letter;
+									  Boolean _baleted;
+									   
+									  Particle(PVector pos, PVector vel, PVector acc, char letter)
+									  {
+										_p = pos;
+										_v = vel;
+										_a = acc;  
+										_baleted = false;
+									  }
+									   
+									  void Update()
+									  {
+										_v.x += _a.x;
+										_v.y += _a.y;
+										_p.x += _v.x * deltaTime;
+										_p.y += _v.y * deltaTime;       
+										if(_p.y < -100 + textDescent())
+										{
+										  _baleted = true;
+										}     
+										// Entering water
+										if(_p.y > water._height)
+										{
+										  _baleted = true;
+										}
+									  }
+									}
+									
+									
+									class SplashEmitter {
+									  PVector _p;
+									  PVector _dir;
+									  float _speed;
+									  float _variance;
+									  float _posVariance;
+									  ArrayList _particleList;
+									  int _numParticles;
+									  Boolean _baleted;
+									   
+									  SplashEmitter()
+									  {
+										_particleList = new ArrayList();
+										_p = new PVector(100, 100);
+										_dir = new PVector(0, -1);
+										_speed = 400;
+										_variance = 1;
+										_posVariance = 10;
+										_numParticles = 50;
+										_baleted = false;     
+										for(int i = 0; i < _numParticles; i++)
+										{
+										  EmitParticle();
+										}
+									  }
+									   
+									  SplashEmitter(PVector pos, PVector dir, float speed, int numParticles)
+									  {
+										_particleList = new ArrayList();
+										_p = pos;
+										_dir = dir;
+										_speed = speed;
+										_variance = 1;
+										_posVariance = 10;
+										_numParticles = numParticles;
+										_baleted = false;     
+										for(int i = 0; i < _numParticles; i++)
+										{
+										  EmitParticle();
+										}
+									  }
+									   
+									  void Update()
+									  {
+										// Update all particles
+										for(int i = 0; i < _particleList.size(); i++)
+										{
+										  Particle l = (Particle)_particleList.get(i);
+										  l.Update();    
+										  if(l._baleted)
+										  {
+											_particleList.remove(i);
+											l = null;
+											i--;
+										  }
+										}
+											  
+										if(_particleList.size() == 0)
+										{
+										  _baleted = true;
+										}
+									  }
+									   
+									  void Render()
+									  {
+										fill(water._r, water._g, water._b);
+										for(int i = 0; i < _particleList.size(); i++)
+										{
+										  noStroke();
+										  Particle l = GetParticle(i);
+										  pushMatrix();
+										  translate(l._p.x, l._p.y);
+										  ellipse(0,0,5,5);
+										  popMatrix();
+										  pushMatrix();
+										  translate(2*mouseX-l._p.x, l._p.y);
+										  ellipse(0,0,5,5);
+										  popMatrix();
+										}
+									  }
+									   
+									  void EmitParticle()
+									  {
+										Particle p = new Particle(new PVector(_p.x + random(-_posVariance, _posVariance), _p.y),
+										  new PVector((_dir.x + random(-_variance, _variance)) * _speed, (_dir.y +  random(-_variance, _variance)) * _speed + mouseV.y),
+										  new PVector(0, gravity),'.');   
+										_particleList.add(p);
+									  }
+									   
+									   
+									  Particle GetParticle(int i)
+									  {
+										return (Particle)_particleList.get(i);
+									  }
+									}
+									class Water {
+									  float _height;
+									  int _r;
+									  int _g;
+									  int _b;
+									   
+									  Water()
+									  { 
+										_height= height - 50;
+										_r = 0;
+										_g = 170;
+										_b = 240;
+									  }
+									   
+									  void Update()
+									  {
+										if(_height < 0)
+										{
+										  _height = 0;
+										}
+									  }
+									   
+									  void Render()
+									  {
+										fill(_r, _g, _b);     
+										int modx = 0;
+										int mody = 0;     
+										pushMatrix();
+										translate(0, _height);   
+										for(int y = 0; y < 20; y++)
+										{
+										  for(int x = 0; x < 8; x++)
+										  {
+											text(waterStr, modx, mody);
+											modx += textWidth(waterStr);
+										  }
+										  modx = 0;
+										  mody += textAscent() + textDescent();
+										}    
+										popMatrix();
+									  }
+									}
+									</script>
+   									<canvas></canvas>              
+						</div>
+                         <!--canvas width="400" height="400" data-processing-sources="js/sinCOS.pde"></canvas-->
+					</li>
+					
+
+				
+                
+                		<!-- SEGUNDA PAGINA -->
+
+
+
+                    
+                    <li>
+					  		
+                            <div class="slide">
+                            
+                            <!--img src="img/2.jpg" height="308" width="562" style=" float:right"/-->
+							<img class="icon" src="img/2.gif" alt="Heart Icon"/>
+							<blockquote  style="color:#4d0000;">
+								<p>Rêve intense et rapide de groupes<br/>
+                                   sentimentaux avec des êtres de tous les<br/>
+                                   caractères parmi toutes les apparences.<br/><br/><br/>
+                                   Cliquez ci-dessus
+                                </p><br/><br/><br/><br/>
+							</blockquote>
+							<!--p>Rimbaud</p-->
+                            
+                            <script type="text/processing">
+	
+								// Global variables
+								ArrayList<Particle> particles = new ArrayList<Particle>();
+								int pixelSteps = 6; // Amount of pixels to skip
+								boolean drawAsPoints = false;
+								ArrayList<String> words = new ArrayList<String>();
+								int wordIndex = 0;
+								color bgColor = color(238, 221, 221);
+								String fontName = "Arial Bold";
+
+
+								class Particle {
+								  PVector pos = new PVector(0, 0);
+								  PVector vel = new PVector(0, 0);
+								  PVector acc = new PVector(0, 0);
+								  PVector target = new PVector(0, 0);
+								
+								  float closeEnoughTarget = 50;
+								  float maxSpeed = 4.0;
+								  float maxForce = 0.1;
+								  float particleSize = 5;
+								  boolean isKilled = false;
+								
+								  color startColor = color(0);
+								  color targetColor = color(0);
+								  float colorWeight = 0;
+								  float colorBlendRate = 0.025;
+
+								  void move() {
+										// Check if particle is close enough to its target to slow down
+										float proximityMult = 1.0;
+										float distance = dist(this.pos.x, this.pos.y, this.target.x, this.target.y);
+										
+										if (distance < this.closeEnoughTarget) {
+										  proximityMult = distance/this.closeEnoughTarget;
+									}
+
+									// Add force towards target
+									PVector towardsTarget = new PVector(this.target.x, this.target.y);
+									towardsTarget.sub(this.pos);
+									towardsTarget.normalize();
+									towardsTarget.mult(this.maxSpeed*proximityMult);
+
+									PVector steer = new PVector(towardsTarget.x, towardsTarget.y);
+									steer.sub(this.vel);
+									steer.normalize();
+									steer.mult(this.maxForce);
+									this.acc.add(steer);
+
+									// Move particle
+									this.vel.add(this.acc);
+									this.pos.add(this.vel);
+									this.acc.mult(0);
+								  }
+
+								  void draw() {
+									// Draw particle
+									color currentColor = lerpColor(this.startColor, this.targetColor, this.colorWeight);
+									if (drawAsPoints) {
+									  stroke(currentColor);
+									  point(this.pos.x, this.pos.y);
+									  
+									} else {
+										
+									  noStroke();
+									  fill(currentColor);
+									  ellipse(this.pos.x, this.pos.y, this.particleSize, this.particleSize);
+									}
+
+									// Blend towards its target color
+									if (this.colorWeight < 1.0) {
+									  this.colorWeight = min(this.colorWeight+this.colorBlendRate, 1.0);
+									}
+								  }
+
+								  void kill() {
+									if (! this.isKilled) {
+									  // Set its target outside the scene
+									  PVector randomPos = generateRandomPos(width/2, height/2, (width+height)/2);
+									  this.target.x = randomPos.x;
+									  this.target.y = randomPos.y;
+								
+									  // Begin blending its color to black
+									  this.startColor = lerpColor(this.startColor, this.targetColor, this.colorWeight);
+									  this.targetColor = color(0);
+									  this.colorWeight = 0;
+								
+									  this.isKilled = true;
+									}
+								  }
+								}
+
+
+								// Picks a random position from a point's radius
+								PVector generateRandomPos(int x, int y, float mag) {
+								  PVector sourcePos = new PVector(x, y);
+								  PVector randomPos = new PVector(random(0, width), random(0, height));
+								
+								  PVector direction = PVector.sub(randomPos, sourcePos);
+								  direction.normalize();
+								  direction.mult(mag);
+								  sourcePos.add(direction);
+								
+								  return sourcePos;
+								}
+
+
+							// Makes all particles draw the next word
+							void nextWord(String word) {
+							  // Draw word in memory
+							  PGraphics pg = createGraphics(width, height);
+							  pg.beginDraw();
+							  pg.fill(0);
+							  pg.textSize(100);
+							  pg.textAlign(CENTER);
+							  PFont font = createFont(fontName, 100);
+							  pg.textFont(font);
+							  pg.text(word, width/2, height/2);
+							  pg.endDraw();
+							  pg.loadPixels();
+
+							  // Next color for all pixels to change to
+							  color newColor = color(random(0.0, 255.0), random(0.0, 255.0), random(0.0, 255.0));
+							
+							  int particleCount = particles.size();
+							  int particleIndex = 0;
+							
+							  // Collect coordinates as indexes into an array
+							  // This is so we can randomly pick them to get a more fluid motion
+							  ArrayList<Integer> coordsIndexes = new ArrayList<Integer>();
+							  
+							  for (int i = 0; i < (width*height)-1; i+= pixelSteps) {
+								
+								coordsIndexes.add(i);
+								
+							  }
+
+							  for (int i = 0; i < coordsIndexes.size (); i++) {
+								// Pick a random coordinate
+								int randomIndex = (int)random(0, coordsIndexes.size());
+								int coordIndex = coordsIndexes.get(randomIndex);
+								coordsIndexes.remove(randomIndex);
+								
+								// Only continue if the pixel is not blank
+								if (pg.pixels[coordIndex] != 0) {
+								  // Convert index to its coordinates
+								  int x = coordIndex % width;
+								  int y = coordIndex / width;
+							
+								  Particle newParticle;
+							
+								  if (particleIndex < particleCount) {
+									// Use a particle that's already on the screen 
+									newParticle = particles.get(particleIndex);
+									newParticle.isKilled = false;
+									particleIndex += 1;
+								  } else {
+									// Create a new particle
+									newParticle = new Particle();
+									
+									PVector randomPos = generateRandomPos(width/2, height/2, (width+height)/2);
+									newParticle.pos.x = randomPos.x;
+									newParticle.pos.y = randomPos.y;
+									
+									newParticle.maxSpeed = random(2.0, 5.0);
+									newParticle.maxForce = newParticle.maxSpeed*0.025;
+									newParticle.particleSize = random(3, 6);
+									newParticle.colorBlendRate = random(0.0025, 0.03);
+									
+									particles.add(newParticle);
+								  }
+								  
+								  // Blend it from its current color
+								  newParticle.startColor = lerpColor(newParticle.startColor, newParticle.targetColor, newParticle.colorWeight);
+								  newParticle.targetColor = newColor;
+								  newParticle.colorWeight = 0;
+								  
+								  // Assign the particle's new target to seek
+								  newParticle.target.x = x;
+								  newParticle.target.y = y;
+								}
+							  }
+
+							  // Kill off any left over particles
+							  if (particleIndex < particleCount) {
+								for (int i = particleIndex; i < particleCount; i++) {
+								  Particle particle = particles.get(i);
+								  particle.kill();
+								}
+							  }
+							}
+
+
+						void setup() {
+							
+						   // VERIFICO LAS DIMENSIONES DE LA PANTALLA 
+											 
+						  if (ancho == 1024 && largo == 600) {  // MOST NOTEBOOKS
+												 
+										size(300, 150); // (640, 360)
+												 
+						  } else if (ancho == 1280 && largo == 800) {  // MACBOOK PRO 13
+													 
+										size(400, 150); // (640, 360)
+													 
+						  } else if (ancho == 1366 && largo == 768) {  // SOME LAPTOPS
+													 
+										size(500, 150); // (640, 360) 
+												
+						  } else if (ancho == 1440 && largo == 900) {  // MACBOOK PRO 15
+												
+										size(560, 200); // (640, 360) 
+												
+						  } else if (ancho == 2560 && largo == 1440) { // MI PANTALLA GRANDE
+													
+										size(700, 300);
+													
+						  }		
+						
+						  background(238, 221, 221); 
+						
+						  words.add("Cris");
+						  words.add("Calac");
+						  words.add("Polanco");
+						  words.add("Tango");
+						  words.add("");
+						
+						  nextWord(words.get(wordIndex));
+						}
+
+
+						void draw() {
+						  // Background & motion blur
+						  fill(bgColor);
+						  noStroke();
+						  rect(0, 0, width*2, height*2);
+						
+						  for (int x = particles.size ()-1; x > -1; x--) {
+							// Simulate and draw pixels
+							Particle particle = particles.get(x);
+							particle.move();
+							particle.draw();
+						
+							// Remove any dead pixels out of bounds
+							if (particle.isKilled) {
+							  if (particle.pos.x < 0 || particle.pos.x > width || particle.pos.y < 0 || particle.pos.y > height) {
+								particles.remove(particle);
+							  }
+							}
+						  }
+
+						  // Display control tips
+						  fill(255-red(bgColor));
+						  textSize(9);
+						//  String tipText = "Left-click for a new word.";
+						//  tipText += "\nDrag right-click over particles to interact with them.";
+						//  tipText += "\nPress any key to toggle draw styles.";
+						//  text(tipText, 10, height-40);
+						}
+
+
+						// Show next word
+						void mousePressed() {
+						  if (mouseButton == LEFT) {
+							wordIndex += 1;
+							if (wordIndex > words.size()-1) { 
+							  wordIndex = 0;
+							}
+							nextWord(words.get(wordIndex));
+						  }
+						}
+
+
+						// Kill pixels that are in range
+						void mouseDragged() {
+						  if (mouseButton == RIGHT) {
+							for (Particle particle : particles) {
+							  if (dist(particle.pos.x, particle.pos.y, mouseX, mouseY) < 50) {
+								particle.kill();
+							  }
+							}
+						  }
+						}
+
+
+						// Toggle draw modes
+						void keyPressed() {
+						  drawAsPoints = (! drawAsPoints);
+						  if (drawAsPoints) {
+							background(0);
+							bgColor = color(0, 40);
+						  } else {
+							background(255);
+							bgColor = color(255, 100);
+						  }
+						}
+						
+                        </script>
+                        <canvas></canvas>
+						</div>
+					</li>
+                    
+                    
+                    
+                    
+					<!-- TERCERA PAGINA -->
+                    
+                    
+                    
+                    <li>
+						<div class="slide">
+							<img class="icon" src="img/3.gif" alt="Letter Icon"/>
+							<blockquote style="color:#000000;">
+                                <p>Celui que s'en va emporte sa mémoire,<br/> 
+                                sa façon d'être fleuve, d'être air,<br/>
+                                d'être adieu et jamais.<br/><br/><br/><br/>
+                                Cliquez ci-dessus
+                                </p><br/>
+							</blockquote>
+							<!--p>Faye Kicknosway</p-->
+                         
+                             <script type="text/processing">
+						
+									PFont font;
+								
+            					String [] palavras = {"Le temps nous manque", 
+												     "ou nous à lui,", 
+													 "on reste derriére parce qu'on court trop,", 
+													 " le jour ne nous suffit plus", 
+													 "que pour vivre une demie heure à peine.", 
+													 "Quelle vanité d'imaginer", 
+													 "que je peux tout te donner,", 
+													 "l'amour et le bonheur,", 
+													 "luta", "voyages,", "musique,", "jouets.","BOLERO",
+													 "L'exil","Tu as pour moments","le visage de l'exil,",
+													 "celui que cherche une voix dans tes poèmes.",
+													 "LA POISSE"," Tu vois la Croix du Sud,",
+													 "tu respires l'été et son odeur de peches,",
+													 "et tu marches la nuit","mon petit fantôme silencieux",
+													 "par ce Buenos Aires,"," par ce toujours le même Buenos Aires.",
+													 "CHRONIQUE POUR CÉSAR","Je crois que tu mourras en croyant",
+                               						 "que tu as érigé une ville","Je crois que tu as érigé une ville",
+                               						 "Je crois en toi","en la ville","Alors à présent que je crois",
+                               						 "je sais que tu as érigé une ville","Ave César","AIR DU SUD", 
+				                        	   		 "Air du Sud","flagellation chargée de sable",
+													 "d'oiseaux en morceaux et de fourmis,",
+							   						 "dent de l'ouragan couché sur la plaine",
+                               						 "où les hommes à plat ventre sentent passer la mort.",
+									                 "LES DIEUX","Les dieux vont entre des choses piétinées","tenant",
+                               						 "les bords de leurs capes avec un geste de dégoût.",
+							   						 "Entre des chats pourris, des larves ouvertes, des cordons,",
+                               						 "des sandales qui sentent l'","par ce Buenos Aires,",
+                               						 "par ce toujours le même Buenos Aires.","À UN DIEU INCONNU",
+													 "Qui que tu sois","ne viens plus.",
+													 "Les dents du tigre se sont mêlées au grain,",
+                               						 "il pleut un feu incessant sur les casques protecteurs",
+                               						 "on ne sait plus quand s'achèveront les grimaces",
+					                                 "l'usure d'un temps en morceaux."};
+                                  						
+															  
+								  
+            int[] posicao = {5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140,145, 150, 155, 160, 165, 170, 180, 185, 190, 195, 200, 205, 210, 215, 220, 225, 230, 235, 240, 245, 250, 255, 260, 265,270, 275, 280, 285, 290, 295, 300, 305, 310, 315, 320, 325, 330, 335, 340, 345, 350, 355, 360, 365, 370, 375, 380, 385, 390, 395, 400, 405, 410, 415, 420, 425, 430, 435, 440, 445, 450, 455, 460, 465, 470, 475, 480, 485, 490, 495, 500, 505, 510, 515, 520, 525, 530, 535, 540, 545, 550, 555, 560, 565, 570, 575, 580, 585, 590, 595,600, 605, 610, 615, 620, 625, 630, 635, 640, 645, 650, 655, 660, 665, 670, 675, 680, 685, 690, 695,700, 705, 710, 715,720, 725, 730, 735, 740, 745, 750, 755, 760, 765, 770, 775, 780, 785, 790, 795,800, 805, 810, 815, 820, 825, 830, 835,840, 845, 850, 855, 860, 865, 870, 875, 880, 885, 890, 895,900, 905, 910, 915, 920, 925, 930, 935, 940, 945, 950, 955, 960, 965, 970, 975, 980, 985, 990, 995,1005, 1010, 1015, 1020, 1025, 1030, 1035, 1040, 1045, 1050, 1055, 1060, 1065, 1070, 1075, 1080, 1085, 1090, 1095, 1100, 1105, 1110, 1115, 1120, 1125, 1130};  
+
+            
+						void setup() {
+						
+						  // VERIFICO LAS DIMENSIONES DE LA PANTALLA 
+											 
+						  if (ancho == 1024 && largo == 600) {  // MOST NOTEBOOKS
+												 
+										size(500, 150); // (640, 360)
+												 
+						  } else if (ancho == 1280 && largo == 800) {  // MACBOOK PRO 13
+													 
+										size(590, 150); // (640, 360)
+													 
+						  } else if (ancho == 1366 && largo == 768) {  // SOME LAPTOPS
+													 
+										size(610, 150); // (640, 360) 
+												
+						  } else if (ancho == 1440 && largo == 900) {  // MACBOOK PRO 15
+												
+										size(660, 200); // (640, 360) 
+												
+						  } else if (ancho == 2560 && largo == 1440) { // MI PANTALLA GRANDE
+													
+										size(1180, 300);
+													
+						  }			
+					  
+						  fill(255);
+						  font = createFont("Arial",32, true);
+						  background(0,0);
+						  textSize(random(40,70));
+							text(palavras[int(random(0, palavras.length))], width/2, height/2);
+						}
+			
+			
+            void draw() {
+              if(mousePressed){
+                background(0,0);
+
+                textSize(random(20,60));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                textSize(random(20,60));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                 textSize(random(20,60));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                 textSize(random(20,60));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                 textSize(random(12,20));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                textSize(random(20,60));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                 textSize(random(30,50));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                textSize(random(12,40));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                textSize(random(12,40));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                 textSize(random(12,40));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                 textSize(random(12,40));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                  textSize(random(12,40));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                  textSize(random(12,40));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                  textSize(random(12,40));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))]);
+                  textSize(random(12,40));
+                text(palavras[int(random(0, palavras.length))], posicao[int(random(0, posicao.length))], posicao[int(random(0, posicao.length))] );
+             
+              }
+            }
+							</script>
+						    <canvas></canvas>
+						</div>
+					</li>
+					
+                    
+                    
+                    
+                 		<!-- CUARTA PAGINA -->
+                        
+                 
+                 
+                    <li>
+                    
+						<div class="slide">
+							<img class="icon" src="img/4.gif" alt="Football Icon"/>
+							<blockquote style="color:#000000;">
+								<p>Fleurs de cerisier, plus<br/>
+                                   et plus aujourd'hui ! Les oiseaux ont deux pattes!<br/>
+                                   Ô et les chevaux quatre!<br/><br/>
+                                Cliquez ci-dessus
+                                </p>
+							</blockquote>
+							<!--p>Onitsura, 1660-1738.</p-->
+                            
+							<script type="text/processing">
+                            	tree myTree;
+								PVector startPoint;
+								PVector drection;
+								int count;
+
+								void setup() {
+										
+									  // VERIFICO LAS DIMENSIONES DE LA PANTALLA 
+											 
+						 			 if (ancho == 1024 && largo == 600) {  // MOST NOTEBOOKS
+												 
+										size(400, 150); // (640, 360)
+												 
+						  			} else if (ancho == 1280 && largo == 800) {  // MACBOOK PRO 13
+													 
+										size(600, 200); // (640, 360)
+													 
+						  			} else if (ancho == 1366 && largo == 768) {  // SOME LAPTOPS
+													 
+										size(700, 300); // (640, 360) 
+												
+								    } else if (ancho == 1440 && largo == 900) {  // MACBOOK PRO 15
+												
+										size(700, 300); // (640, 360) 
+												
+						  			} else if (ancho == 2560 && largo == 1440) { // MI PANTALLA GRANDE
+													
+										 size(800, 600);
+													
+						 			 }				
+									
+									  background(0,0);//(230, 250, 220, 250)
+									  ellipseMode(CENTER);
+									  stroke(80, 0, 50, 200);
+									  fill(250, 80, 120, 120);
+									  ellipseMode(CENTER);
+									  smooth();
+									  startPoint = new PVector(width/2, height);
+									  drection = new PVector(0, -height);
+									  myTree = new tree(startPoint, drection);
+									  count = myTree.treeSize;
+								}
+
+								void draw() {
+									  background(0,0);//(230, 250, 220, 250)
+									  myTree.swing();
+  
+									  stroke(80, 0, 50, 200);
+									  int tempIndex;
+								
+								  for(int i = 1; i < count; i ++) {
+								    strokeWeight(myTree.twig[(int)myTree.map[i].x].thickness[(int)myTree.map[i].y]);
+								    line(myTree.twig[(int)myTree.map[i].x].location[(int)myTree.map[i].y - 1].x, myTree.twig[(int)myTree.map[i].x].location[(int)myTree.map[i].y - 1].y,
+							         myTree.twig[(int)myTree.map[i].x].location[(int)myTree.map[i].y].x, myTree.twig[(int)myTree.map[i].x].location[(int)myTree.map[i].y].y);
+  								   }
+  
+								  noStroke(); 
+
+								  for(int i = 0; i < myTree.twig.length; i++) {
+									    int num = myTree.twig[i].location.length - 1;
+									    ellipse(myTree.twig[i].location[num].x, myTree.twig[i].location[num].y, 12, 12);
+  								  }	
+  
+							}
+
+							void mousePressed() {
+								  background(200);//(230, 250, 220, 250)
+								  stroke(80, 0, 50, 200);
+								  myTree = new tree(startPoint, drection);
+								  count = myTree.treeSize;
+
+							//  println("================================");
+
+							}
+					
+							class branch {
+									  PVector[] location;
+									  float[] thickness;
+									  int[][] baseIndex = new int[2][];
+	
+									   //  float[] baseDtheta;
+									
+									  boolean isCandidate = false;
+									  float[] dTheta;
+  
+						  branch(PVector loc, float thic, int id, int branchIndex) {
+								
+								    location = new PVector[1];
+								    thickness = new float[1];
+								    location[0] = new PVector(loc.x, loc.y);
+								    thickness[0] = thic;
+    
+								    baseIndex[0] = new int[1];
+								    baseIndex[1] = new int[1];
+								    baseIndex[0][0] = id;
+								    baseIndex[1][0] = branchIndex;
+    
+  						  }
+						  
+						  void branchRotate(int index, float theta, PVector reference) {
+							      location[index].sub(reference);
+							      rotate2D(location[index], theta);
+							      location[index].add(reference);
+  						}
+  
+						  void rotate2D(PVector v, float theta) {
+							      float xTemp = v.x;
+							      v.x = v.x * cos(theta) - v.y * sin(theta);
+							      v.y = xTemp * sin(theta) + v.y * cos(theta);
+  						  }
+					}
+				
+						 class frontier {
+								  PVector location;
+								  PVector velocity;
+								  float thickness;
+								  boolean finished;
+  
+  
+						  frontier(PVector startPoint, PVector direction) {
+    							location = new PVector(startPoint.x, startPoint.y);
+							    velocity = new PVector(direction.x, direction.y);
+							    thickness = random(10, 20);
+							    finished = false;
+  						  }
+  
+						  frontier(frontier parent) {
+							    location = parent.location.get();
+							    velocity = parent.velocity.get();
+							    thickness = parent.thickness;
+							    parent.thickness = thickness;
+							    finished = parent.finished;
+						  }
+  
+						  void update(float factor) {
+								    if(  location.x > -10 
+										       & location.y > -10
+										       & location.x < width + 10
+										       & location.y < height + 10 
+										       & thickness > factor)  
+    					{
+
+						      velocity.normalize();
+						      PVector uncertain = new PVector(random(-1, 1), random(-1, 1));
+						      uncertain.normalize();
+						      uncertain.mult(0.2);
+						      velocity.mult(0.8);
+						      velocity.add(uncertain);
+						      velocity.mult(random(8, 15));
+						      location.add(velocity);
+					    }
+    
+    						else {
+							      finished = true;
+    							}
+   
+  						} // void update()
+  
+						}	
+						class tree 
+						{
+						  PVector[] map;
+						  branch[] twig;
+						  int treeSize;
+						  float BranchLengthFactor = 0.3;
+						  float BranchLocationFactor = 0.3;
+
+						  float dt = 0.025;
+						  float time = 0;
+						  float[] dtheta;
+						  
+						  int candNum = 3;
+						  int[] candidateIndex = new int[candNum];
+						  float[] amplitude = new float[candNum];
+						  float[] phaseFactor = new float[candNum];
+						  float freq;
+						  float period;
+						   
+						  tree(PVector startPoint, PVector direction) { 
+							
+							int id = 0;
+							boolean growth = false;
+							
+							frontier[] fr = new frontier[1];
+							fr[id] = new frontier(startPoint, direction);
+							
+							twig = new branch[1];    
+							twig[id] = new branch(fr[id].location, fr[id].thickness, id, 0);
+							
+							map = new PVector[1];
+							map[0] = new PVector(id, twig[id].location.length - 1);
+    
+								while(!growth)
+								{
+								  int growthSum = 0;
+								  for(id = 0; id < fr.length; id++)
+								  {
+									fr[id].update(BranchLocationFactor);
+									if(!fr[id].finished)
+									{
+									  twig[id].location = (PVector[]) append(twig[id].location, new PVector(fr[id].location.x, fr[id].location.y)); 
+									  twig[id].thickness = (float[]) append(twig[id].thickness, fr[id].thickness);
+									  map = (PVector[]) append(map, new PVector(id, twig[id].location.length - 1));
+									  
+									  if (random(0, 1) < BranchLengthFactor)  // control length of one branch  
+									  { 
+										
+										fr[id].thickness *= 0.65;
+										twig[id].thickness[twig[id].thickness.length - 1] = fr[id].thickness;
+										if( fr[id].thickness > BranchLocationFactor)  // control the number of the locations on all branches, i.e., treeSize.
+										{
+										  fr = (frontier[]) append(fr, new frontier(fr[id]));           
+										  twig = (branch[]) append(twig, new branch(fr[id].location, fr[id].thickness, id, twig[id].location.length - 1));
+										  int _id = id;
+										  if(_id != 0)  for(int _i = 0; _i < 2; _i++)  twig[twig.length - 1].baseIndex[_i] = concat(twig[twig.length - 1].baseIndex[_i], twig[_id].baseIndex[_i]);
+										}
+										
+									  } // if (random(0, 1) < 0.2)
+									  
+									}
+									else  growthSum += 1;
+								  }
+								  if(growthSum == fr.length) 
+								  {
+									dtheta = new float[twig.length];
+									treeSize = map.length;
+									growth = true;
+								  }
+								} // while(!growth)
+								
+								ArrayList<Float> _candList = new ArrayList<Float>();
+								float[] _candfloat = new float[twig.length];
+								for(int i = 0; i < twig.length; i++)
+								{
+								  _candfloat[i] = (float)twig[i].location.length;
+								  _candList.add(_candfloat[i]);
+								}
+								candidateIndex[0] = 0;
+								twig[0].isCandidate = true;
+								twig[0].dTheta = new float[twig[0].location.length];
+								_candfloat[0] = -1.0;
+								_candList.set(0, -1.0);
+								for(int i = 1; i < candNum; i++) 
+								{
+								  float _temp = max(_candfloat);
+								  candidateIndex[i] = _candList.indexOf(_temp);
+								  twig[candidateIndex[i]].isCandidate = true;
+								  twig[candidateIndex[i]].dTheta = new float[twig[candidateIndex[i]].location.length];
+								  _candfloat[candidateIndex[i]] = -1.0;
+								  _candList.set(candidateIndex[i], -1.0);
+								}
+							//    println(candidateIndex);
+								  
+								amplitude[0] = random(0.006, 0.012);
+								phaseFactor[0] = random(0.6, 1.2);
+								freq = random(0.5, 0.8);
+								period = 1 / freq;
+								for(int i = 1; i < candNum; i++)
+								{
+								  amplitude[i] = amplitude[i-1] * random(0.9, 1.4);
+								  phaseFactor[i] = phaseFactor[i-1] * random(0.9, 1.4);
+								}
+							  }
+							  
+							  void swing()
+							  {
+								for(int i = 0; i < candNum; i++)
+								{
+								  int _num = twig[candidateIndex[i]].location.length;
+								  for(int j = 0; j < _num; j++)  twig[candidateIndex[i]].dTheta[j] = amplitude[i] * dt * TWO_PI * freq * cos(TWO_PI * freq * time - phaseFactor[i] * PI * (float)j / (float)_num);
+								}
+							
+								for(int id = 0; id < twig.length; id++)
+								{
+								  if(twig[id].isCandidate)  for(int _id = 1; _id < twig[id].location.length; _id++)  twig[id].branchRotate(_id, twig[id].dTheta[_id], twig[id].location[0]);
+							 
+								  for(int j = 0; j < twig[id].baseIndex[0].length; j++)
+								  {
+									if(!twig[twig[id].baseIndex[0][j]].isCandidate | id == 0) continue;
+									else
+									{
+									  for(int k = (id == 0) ? 1 : 0; k < twig[id].location.length; k++)
+									  {
+										twig[id].branchRotate(k, twig[twig[id].baseIndex[0][j]].dTheta[twig[id].baseIndex[1][j]], twig[twig[id].baseIndex[0][j]].location[0]);
+									  }
+									}
+								  }
+							
+								} // for(int id = 0; id < twig.length; id++)
+							
+								time += dt;
+								if(time >= period) time -= period;    
+							  }
+							  
+							}
+							</script>
+                            <canvas></canvas>
+                     
+						</div>
+					</li>
+                    
+                    
+                    
+                    	<!-- QUINTA PAGINA -->
+                    
+                    
+                    
+                    
+					<li>
+						<div class="slide">
+							<img class="icon" src="img/5.gif" alt="Match Icon"/>
+							<blockquote style="color:#000000;">
+								<p>Nous luttons pour fixer notre désir,<br/>
+                                   Comme s'il y avait quelqu'un, plus fort que nous,<br/>
+                                   Qui gardait en mémoire notre oubli.<br/><br/><br/><br/>
+                                 </p>
+                                </blockquote>
+							<!--p>Luis Cernuda</p-->
+                            <script type="text/processing">
+							
+							/* @pjs font="AvenirNext-Heavy.ttf"; */
+
+								PFont font;
+								String word = "désir";
+								char[] letters;
+								float[] y;
+								//float x = random(150,160);
+								int currentLetter = 0;
+
+								void setup() {
+										
+										 // VERIFICO LAS DIMENSIONES DE LA PANTALLA 
+												 
+										 if (ancho == 1024 && largo == 600) {  // MOST NOTEBOOKS
+													 
+											size(200, 150); // (640, 360)
+													 
+										} else if (ancho == 1280 && largo == 800) {  // MACBOOK PRO 13
+														 
+											size(300, 200); // (640, 360)
+														 
+										} else if (ancho == 1366 && largo == 768) {  // SOME LAPTOPS
+														 
+											size(400, 300); // (640, 360) 
+													
+										} else if (ancho == 1440 && largo == 900) {  // MACBOOK PRO 15
+													
+											size(400, 300); // (640, 360) 
+													
+										} else if (ancho == 2560 && largo == 1440) { // MI PANTALLA GRANDE
+														
+											 size(400,400);
+														
+										 }				 									
+										  
+										//  font = loadFont("AvenirNext-Heavy-48.vlw");
+										  font = createFont("AvenirNext-Heavy",48);
+										  textFont(font);
+										  letters = word.toCharArray();
+										  y = new float[letters.length];
+										  for (int i = 0; i < letters.length; i++) {
+											y[i] = 480;
+										  }
+										  
+										  frameRate(20);
+								}
+
+								void draw() {
+											  fill(0,50);
+											  rect(0,0,width, height);
+											  fill(100,100,255,180);
+											  background(0,0);
+											//  pushMatrix();
+											//    translate(0,20);
+											//  popMatrix();
+										  if (y[currentLetter] > 35) {
+												y[currentLetter] -= 12;
+										  } else {
+											if (currentLetter < letters.length-1) {
+											  	currentLetter++;
+											}
+										  }
+										  
+								  float x = (width - textWidth(word)) / 2;
+								  
+								  for (int i = 0; i < letters.length; i++) {
+											translate(0,52);
+											pushMatrix();
+											rotate(PI/24);
+											translate(0,-12);
+											popMatrix();
+											text(letters[i], random(150,220), y[i]);
+											x += textWidth(letters[i]);
+								  }
+								}
+															
+							
+							</script>
+                            <canvas></canvas>
+						</div>
+					</li>
+                    
+                    
+                    
+         
+                    <!-- SEXTA PAGINA -->
+                    
+                    
+                    
+                    
+					<li>
+						<div class="slide">
+							<img class="icon" src="img/6.gif" alt="Watch Icon"/>
+							<blockquote style="color:#000000;">
+								<p>Je ne poursiuis pas le chemin des anciens:
+                                   je cherche ce qu'ils ont cherché. <br/><br/>
+                                   Cliquez ci-dessus<br/><br/><br/>
+                                 </p>
+                                </blockquote>
+							<!--p>Bashô</p-->
+                            <script type="text/processing">
+							
+							PVector centerStage;
+							
+							final int NB_SQUARES = 110;
+							final float RADIUS_STEP = 3;
+							final float Z_STEP = 7;
+							final float RADIUS_MIN = 4;
+							final float MAX_ROTATION_SPEED = PI / 10;    
+							final float MIN_ANGLE = 0;
+							final float MAX_ANGLE = PI * 3;
+							final float MIN_DEFAULT_ANGLE = -PI / 20;
+							final float MAX_DEFAULT_ANGLE = PI / 20;
+							final float ANGLE_FRICTION = .7;
+							final float NOISE_R = random(123456);
+							final float NOISE_G = random(123456);
+							final float NOISE_B = random(123456);
+							final float NOISE_COLOR_STEP = .02;
+
+							float[] tabAngles;
+							float[] tabAngleSpeed;
+
+							float[] tabColorsR;
+							float[] tabColorsG;
+							float[] tabColorsB;
+
+							//Tweens
+							//rotation of the very first square
+							float originalRotation = MIN_ANGLE + (MAX_ANGLE - MIN_ANGLE) * random(1);
+							//color of the very first square
+							float originalColor = 256/2;
+							//default angle between two squares
+							float defaultAngle = MIN_DEFAULT_ANGLE + (MAX_DEFAULT_ANGLE - MIN_DEFAULT_ANGLE)*random(1);
+							float defaultAngleEnd = MIN_DEFAULT_ANGLE + (MAX_DEFAULT_ANGLE - MIN_DEFAULT_ANGLE)*random(1);
+							
+							float MIN_TWEEN_DURATION = 3;
+							float MAX_TWEEN_DURATION = 5;
+							final int MOUSE_MODE     = 0;
+							final int AUTO_MODE      = 1;
+							int currentMode          = AUTO_MODE;//MOUSE_MODE;//AUTO_MODE
+							int count = 0;
+
+							void setup() {
+								
+									  // VERIFICO LAS DIMENSIONES DE LA PANTALLA 
+											 
+						 			 if (ancho == 1024 && largo == 600) {  // MOST NOTEBOOKS
+												 
+											size(400, 150, P2D); // (640, 360)
+												 
+						  			} else if (ancho == 1280 && largo == 800) {  // MACBOOK PRO 13
+													 
+											size(600, 200, P2D); // (640, 360)
+													 
+						  			} else if (ancho == 1366 && largo == 768) {  // SOME LAPTOPS
+													 
+											size(700, 300, P2D); // (640, 360) 
+												
+								    } else if (ancho == 1440 && largo == 900) {  // MACBOOK PRO 15
+												
+											size(700, 300, P2D); // (640, 360) 
+												
+						  			} else if (ancho == 2560 && largo == 1440) { // MI PANTALLA GRANDE
+													
+											size(800, 600, P2D);//always the first line in setup//P2D, P3D, and PDF
+													
+						 			 }					
+									  
+									  frameRate(25);
+									  strokeWeight(2);
+									  rectMode(CENTER);
+									
+									  centerStage   = new PVector(width/2, height/2);
+									  tabAngles      = new float[NB_SQUARES];
+									  tabColorsR     = new float[NB_SQUARES];
+									  tabColorsG     = new float[NB_SQUARES];
+									  tabColorsB     = new float[NB_SQUARES];
+									  tabAngleSpeed  = new float[NB_SQUARES];
+									
+									  tabAngles[0]  = originalRotation;
+									  tabColorsR[0] = (random(255));
+									  tabColorsG[0] = (random(255));
+									  tabColorsB[0] = (random(255));
+									  
+									  for (int i = 0; i < NB_SQUARES; i++)
+									  {  
+										tabAngles[i] = tabAngles[0] + i * defaultAngle;
+										tabAngleSpeed[i] = 0;
+									  }
+							}
+
+							  void changeAngle() {
+									  tabColorsR[0] = noise(NOISE_R + count * NOISE_COLOR_STEP) * 255;
+									  tabColorsG[0] = noise(NOISE_G + count * NOISE_COLOR_STEP) * 255;
+									  tabColorsB[0] = noise(NOISE_B + count * NOISE_COLOR_STEP) * 255;
+
+
+							  switch(currentMode) {
+									  case AUTO_MODE:
+										tabAngles[0] = tweenValue((float)tabAngles[0], (float)originalRotation, random(.1));
+										if (abs((float)tabAngles[0] - (float)originalRotation) < .000001)
+										{
+										  tabAngles[0] = originalRotation;
+										  originalRotation = MIN_ANGLE + (MAX_ANGLE - MIN_ANGLE) * random(1);
+										}
+										defaultAngle = tweenValue((float)defaultAngle, (float)defaultAngleEnd, random(.2));
+										if (abs((float)defaultAngle - (float)defaultAngleEnd) < .00001)
+										{
+										  defaultAngleEnd = MIN_DEFAULT_ANGLE + (MAX_DEFAULT_ANGLE - MIN_DEFAULT_ANGLE)*random(1);
+										}
+										break;
+									  case MOUSE_MODE:
+										tabAngles[0] = MIN_ANGLE + (MAX_ANGLE - MIN_ANGLE) * mouseX / width;
+										defaultAngle = MIN_DEFAULT_ANGLE + (MAX_DEFAULT_ANGLE - MIN_DEFAULT_ANGLE) * mouseY / height;
+										break;
+									  default:
+										print("unexpected case");
+										break;
+							  }
+
+							  for (int i = 1; i < NB_SQUARES; i++) {
+								float prevAngle = tabAngles[i-1];
+								float currAngle = tabAngles[i];
+								float deltaAngles = prevAngle - currAngle;
+								tabAngleSpeed[i] = (deltaAngles + defaultAngle) * ANGLE_FRICTION;
+							
+								if (tabAngleSpeed[i] > MAX_ROTATION_SPEED)
+								{
+								  tabAngleSpeed[i] = MAX_ROTATION_SPEED;
+								}
+								else if (tabAngleSpeed[i] < -MAX_ROTATION_SPEED)
+								{
+								  tabAngleSpeed[i] = -MAX_ROTATION_SPEED;
+								}
+								tabAngles[i] += tabAngleSpeed[i];
+							
+								tabColorsR[i] += (tabColorsR[i-1] - tabColorsR[i]) - 0x000001;
+								tabColorsG[i] += (tabColorsG[i-1] - tabColorsG[i]) - 0x000001;
+								tabColorsB[i] += (tabColorsB[i-1] - tabColorsB[i]) - 0x000001;
+							  }
+							}
+
+							void draw() {      
+							  background(0,0);
+							  stroke(0, 0, 0, 90);
+							  changeAngle();
+							  translate(centerStage.x, centerStage.y);
+							
+							  for (int i = NB_SQUARES-1; i >= 0; i--)
+							  {        
+								fill(tabColorsR[i], tabColorsG[i], tabColorsB[i]);
+							
+								float myRadius = RADIUS_MIN + i * RADIUS_STEP;
+								float myAngle = tabAngles[i];
+							
+								pushMatrix();
+								rotate(myAngle);
+								translate(0, 0, -Z_STEP*i);
+								rect(0, 0, myRadius, myRadius);
+								translate(0, 0, Z_STEP*i);
+								popMatrix();
+							  }
+							  count++;
+							}
+
+							void mousePressed()
+							{
+							  currentMode = (currentMode == MOUSE_MODE) ? AUTO_MODE : MOUSE_MODE;
+							}
+							
+							// value tweening function
+							public float tweenValue(float p_from, float p_to, float factor) 
+							{
+							  float result = p_to - p_from;
+							  result *= factor;
+							  result += p_from;
+							  return result;
+							}
+							</script>
+                            <canvas></canvas>
+						</div>
+					</li>
+                    
+                    
+                    
+                    
+                    	 <!-- SEPTIMA PAGINA -->
+                         
+                         
+                    
+                    
+					<li>
+						<div class="slide">
+							<div class="codrops-links">
+								<a class="codrops-icon codrops-icon-prev" href="../0pening/acueil.html">
+                                <span>Accueil</span></a>
+								<a class="codrops-icon" href="../0pening/index.html">
+                                <span>Redémarrer</span></a>
+							</div>
+							<div class="related">
+								<p>Le Bandoneon de Cortazar</p>
+								<a href="../1pourLIRE/lireTITULO.html">
+									<img src="img/icons/1.jpg" />
+									<h3>Chapitre 1</h3>
+								</a>
+								<a href="../2pourEcou/EcouTITULO.html">
+									<img src="img/icons/2.jpg" />
+									<h3>Chapitre 2</h3>
+								</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+                </div>
+                
+                        
+                        
+                        	<!-- SECCION AUDIO -->
+                  	
+                        <audio preload="auto" hidden loop controls autoplay>
+							<source src="songs/03-Tom Hay's Fox.mp3">
+                            <source src="songs/03-Tom Hay's Fox.ogg">
+						</audio>
+                
+                
+	</div><!-- /container -->
+  		
+        
+        
+		<script src="js/classie.js"></script>
+		<script src="js/sliderFx.js"></script>
+		<script>
+			(function() {
+				new SliderFx( document.getElementById('slideshow'), {
+					easing : 'cubic-bezier(.8,0,.2,1)'
+				} );
+			})();
+		</script>
+	</body>
+</html>
